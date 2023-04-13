@@ -3,6 +3,8 @@ import 'package:shader_test_app/examples/example2_page.dart';
 import 'package:shader_test_app/examples/transition_example_page.dart';
 import 'package:shader_test_app/examples/square_example_page.dart';
 
+import 'examples/example3_page.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -24,67 +26,54 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(24.0),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const SquareExamplePage()));
-                        },
-                        child: const Text('Квадратики'),
-                      ),
-                    ),
-                  ),
-                ],
+            children: const [
+              _ButtonWidget(
+                title: 'Квадратики',
+                child: SquareExamplePage(),
               ),
-              Row(
-                children: [
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(24.0),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const TransitionExamplePage()));
-                        },
-                        child: const Text('Смена картинок'),
-                      ),
-                    ),
-                  ),
-                ],
+              _ButtonWidget(
+                title: 'Смена картинок',
+                child: TransitionExamplePage(),
               ),
-              Row(
-                children: [
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(24.0),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const Example2Page()));
-                        },
-                        child: const Text('Смена картинок 2'),
-                      ),
-                    ),
-                  ),
-                ],
+              _ButtonWidget(
+                title: 'Смена картинок 2',
+                child: Example2Page(),
+              ),
+              _ButtonWidget(
+                title: 'Смена цвета',
+                child: Example3Page(),
               ),
             ],
           );
         }),
       ),
+    );
+  }
+}
+
+class _ButtonWidget extends StatelessWidget {
+  const _ButtonWidget({required this.title, required this.child});
+
+  final String title;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => child));
+              },
+              child: Text(title),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

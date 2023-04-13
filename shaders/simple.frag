@@ -4,15 +4,17 @@
 
 precision mediump float;
 
-uniform vec2 resolution;
 out vec4 fragColor;
 
+uniform vec2 uSize;
 vec3 flutterBlue = vec3(5, 83, 177) / 255;
 vec3 flutterNavy = vec3(4, 43, 89) / 255;
 vec3 flutterSky = vec3(2, 125, 253) / 255;
 
 void main() {
-  vec2 st = FlutterFragCoord().xy / resolution.xy;
+      vec2 iResolution = uSize;
+
+  vec2 st = FlutterFragCoord().xy / iResolution.xy;
 
   vec3 color = vec3(0.0);
   vec3 percent = vec3((st.x + st.y) / 2);
