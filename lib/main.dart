@@ -18,6 +18,7 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: Builder(builder: (context) {
           return Column(

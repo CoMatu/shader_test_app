@@ -59,7 +59,7 @@ class _TransitionExamplePageState extends State<TransitionExamplePage> {
   void _initShader() async {
     final imageData = await rootBundle.load('assets/sky_1.jpg');
     image1 = await decodeImageFromList(imageData.buffer.asUint8List());
-    final imageData2 = await rootBundle.load('assets/dash.png');
+    final imageData2 = await rootBundle.load('assets/tower.jpg');
     image2 = await decodeImageFromList(imageData2.buffer.asUint8List());
 
     program =
