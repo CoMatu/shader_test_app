@@ -1,6 +1,7 @@
-import 'dart:ui';
+import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,6 +17,8 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
   var updateTime = 0.0;
 
+  ui.Image? image;
+
   @override
   void initState() {
     super.initState();
@@ -29,33 +32,14 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        body: FutureBuilder<FragmentProgram>(
+        body: FutureBuilder<ui.FragmentProgram>(
           future: _initShader(),
           builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return ShaderMask(
-                shaderCallback: (bounds) {
-                  return snapshot.data!.fragmentShader()
-                    ..setFloat(0, updateTime)
-                    ..setFloat(1, 300)
-                    ..setFloat(2, 300);
-                  //return CustomPaint(painter: _MySweepPainter(shader));
-                },
-                child: const Center(
-                    child: Text(
-                  "TEST",
-                  style: TextStyle(
-                    fontSize: 150,
-                    fontWeight: FontWeight.w900,
-                    color: Colors.white,
-                  ),
-                )),
-              );
-              // final shader = snapshot.data!.fragmentShader()
-              //   ..setFloat(0, updateTime)
-              //   ..setFloat(1, 300)
-              //   ..setFloat(2, 300);
-              // return CustomPaint(painter: _MySweepPainter(shader));
+            if (snapshot.hasData && image != null) {
+              final shader = snapshot.data!.fragmentShader();
+              return CustomPaint(
+                  size: MediaQuery.of(context).size,
+                  painter: _ShaderPainter(shader, image!, updateTime));
             } else {
               return const Center(
                 child: CircularProgressIndicator(),
@@ -67,19 +51,33 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
     );
   }
 
-  Future<FragmentProgram> _initShader() {
-    return FragmentProgram.fromAsset("shaders/test.glsl");
+  Future<ui.FragmentProgram> _initShader() async {
+    final imageData = await rootBundle.load('assets/sky_1.jpg');
+    image = await decodeImageFromList(imageData.buffer.asUint8List());
+
+    final program = await ui.FragmentProgram.fromAsset("shaders/test_2.frag");
+
+    return program;
   }
 }
 
-class _MySweepPainter extends CustomPainter {
-  _MySweepPainter(this.shader);
+class _ShaderPainter extends CustomPainter {
+  _ShaderPainter(this.shader, this.image, this.updateTime);
 
-  final Shader shader;
+  final ui.FragmentShader shader;
+  final ui.Image image;
+  final double updateTime;
 
   @override
   void paint(Canvas canvas, Size size) {
+    shader
+      ..setFloat(0, size.width)
+      ..setFloat(1, size.height)
+      ..setFloat(2, updateTime)
+      ..setImageSampler(0, image);
+
     const Rect rect = Rect.largest;
+
     final Paint paint = Paint()..shader = shader;
     canvas.drawRect(rect, paint);
   }
@@ -87,74 +85,3 @@ class _MySweepPainter extends CustomPainter {
   @override
   bool shouldRepaint(CustomPainter oldDelegate) => true;
 }
-/* import 'dart:ui' as ui;
-
-import 'package:flutter/material.dart';
-import 'package:flutter_shaders/flutter_shaders.dart';
-
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Simple Shader Demo',
-      theme: ThemeData(
-        colorSchemeSeed: Colors.blue,
-        useMaterial3: true,
-      ),
-      home: const MyHomePage(),
-    );
-  }
-}
-
-class MyHomePage extends StatelessWidget {
-  const MyHomePage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Simple Shader Demo'),
-      ),
-      body: ShaderBuilder(
-        assetKey: 'shaders/simple.frag',
-        (context, shader, child) => CustomPaint(
-          size: MediaQuery.of(context).size,
-          painter: ShaderPainter(
-            shader: shader,
-          ),
-        ),
-        child: const Center(
-          child: CircularProgressIndicator(),
-        ),
-      ),
-    );
-  }
-}
-
-class ShaderPainter extends CustomPainter {
-  ShaderPainter({required this.shader});
-  ui.FragmentShader shader;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    shader.setFloat(0, size.width);
-    shader.setFloat(1, size.height);
-
-    final paint = Paint()..shader = shader;
-    canvas.drawRect(
-      Rect.fromLTWH(0, 0, size.width, size.height),
-      paint,
-    );
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return false;
-  }
-} */
