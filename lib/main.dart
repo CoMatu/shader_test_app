@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:shader_test_app/examples/desert_example_page.dart';
+import 'package:shader_test_app/examples/example2_page.dart';
+import 'package:shader_test_app/examples/transition_example_page.dart';
 import 'package:shader_test_app/examples/square_example_page.dart';
 
 void main() {
@@ -53,9 +54,27 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      const DesertExamplePage()));
+                                      const TransitionExamplePage()));
                         },
-                        child: const Text('Пустыня'),
+                        child: const Text('Смена картинок'),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(24.0),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const Example2Page()));
+                        },
+                        child: const Text('Смена картинок 2'),
                       ),
                     ),
                   ),

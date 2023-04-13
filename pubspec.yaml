@@ -24,11 +24,14 @@ flutter:
   shaders:
     - shaders/simple.frag
     - shaders/test_2.frag
-    - shaders/desert.frag
+    - shaders/test_3.frag
+    - shaders/square_transition.frag
     - shaders/test.glsl
   assets:
     - assets/sky_1.jpg
     - assets/dash.png
+    - assets/bird.jpg
+    - assets/tower.jpg
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg

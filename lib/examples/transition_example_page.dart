@@ -5,18 +5,19 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/services.dart';
 
-class DesertExamplePage extends StatefulWidget {
-  const DesertExamplePage({Key? key}) : super(key: key);
+class TransitionExamplePage extends StatefulWidget {
+  const TransitionExamplePage({Key? key}) : super(key: key);
 
   @override
-  State<DesertExamplePage> createState() => _DesertExamplePageState();
+  State<TransitionExamplePage> createState() => _TransitionExamplePageState();
 }
 
-class _DesertExamplePageState extends State<DesertExamplePage> {
+class _TransitionExamplePageState extends State<TransitionExamplePage> {
   var updateTime = 0.0;
   late Timer timer;
 
-  ui.Image? image;
+  ui.Image? image1;
+  ui.Image? image2;
   ui.FragmentProgram? program;
 
   @override
@@ -43,11 +44,11 @@ class _DesertExamplePageState extends State<DesertExamplePage> {
   @override
   Widget build(BuildContext context) {
     return Builder(builder: (context) {
-      return program != null && image != null
+      return program != null && image1 != null
           ? CustomPaint(
               size: MediaQuery.of(context).size,
-              painter:
-                  _ShaderPainter(program!.fragmentShader(), image!, updateTime),
+              painter: _ShaderPainter(
+                  program!.fragmentShader(), image1!, image2!, updateTime),
             )
           : const Center(
               child: CircularProgressIndicator(),
@@ -57,19 +58,23 @@ class _DesertExamplePageState extends State<DesertExamplePage> {
 
   void _initShader() async {
     final imageData = await rootBundle.load('assets/sky_1.jpg');
-    image = await decodeImageFromList(imageData.buffer.asUint8List());
+    image1 = await decodeImageFromList(imageData.buffer.asUint8List());
+    final imageData2 = await rootBundle.load('assets/dash.png');
+    image2 = await decodeImageFromList(imageData2.buffer.asUint8List());
 
-    program = await ui.FragmentProgram.fromAsset("shaders/desert.frag");
+    program =
+        await ui.FragmentProgram.fromAsset("shaders/square_transition.frag");
 
     setState(() {});
   }
 }
 
 class _ShaderPainter extends CustomPainter {
-  _ShaderPainter(this.shader, this.image, this.updateTime);
+  _ShaderPainter(this.shader, this.image, this.image2, this.updateTime);
 
   final ui.FragmentShader shader;
   final ui.Image image;
+  final ui.Image image2;
   final double updateTime;
 
   @override
@@ -78,7 +83,8 @@ class _ShaderPainter extends CustomPainter {
       ..setFloat(0, size.width)
       ..setFloat(1, size.height)
       ..setFloat(2, updateTime)
-      ..setImageSampler(0, image);
+      ..setImageSampler(0, image)
+      ..setImageSampler(1, image2);
 
     const Rect rect = Rect.largest;
 
