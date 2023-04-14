@@ -41,9 +41,11 @@ class _SquareExamplePageState extends State<SquareExamplePage> {
   Widget build(BuildContext context) {
     return Builder(builder: (context) {
       return program != null
-          ? CustomPaint(
-              size: MediaQuery.of(context).size,
-              painter: _ShaderPainter(program!.fragmentShader(), updateTime),
+          ? SizedBox(
+              child: CustomPaint(
+                size: MediaQuery.of(context).size,
+                painter: _ShaderPainter(program!.fragmentShader(), updateTime),
+              ),
             )
           : const Center(
               child: CircularProgressIndicator(),
