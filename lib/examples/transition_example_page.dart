@@ -82,9 +82,8 @@ class _ShaderPainter extends CustomPainter {
     shader
       ..setFloat(0, size.width)
       ..setFloat(1, size.height)
-      ..setFloat(2, updateTime)
-      ..setImageSampler(0, image)
-      ..setImageSampler(1, image2);
+      /* ..setFloat(2, updateTime) */
+      ..setImageSampler(0, image2) /* ..setImageSampler(1, image2) */;
 
     const Rect rect = Rect.largest;
 
