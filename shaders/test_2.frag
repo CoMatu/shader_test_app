@@ -5,7 +5,7 @@
 
 uniform vec2 uSize;
 uniform float iTime;                 // shader playback time (in seconds) 3
-uniform sampler2D sumpler;          // input channel. XX = 2D/Cube
+//uniform sampler2D sumpler;          // input channel. XX = 2D/Cube
 
 out vec4 fragColor;
 
