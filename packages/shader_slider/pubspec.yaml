@@ -1,5 +1,5 @@
 name: shader_slider
-description: Package which delivers ui kit
+description: Package which delivers slider
 publish_to: none
 
 environment:
@@ -8,7 +8,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  shimmer: ^2.0.0
 
 dev_dependencies:
   flutter_test:

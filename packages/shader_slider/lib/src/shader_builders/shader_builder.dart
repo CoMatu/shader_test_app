@@ -8,9 +8,11 @@ class ShaderBuilderPage extends StatefulWidget {
   const ShaderBuilderPage({
     Key? key,
     required this.imagesPaths,
+    this.sliderHeight = 300.0,
   }) : super(key: key);
 
   final List<String> imagesPaths;
+  final double sliderHeight;
 
   @override
   State<ShaderBuilderPage> createState() => _ShaderBuilderPageState();
@@ -52,12 +54,21 @@ class _ShaderBuilderPageState extends State<ShaderBuilderPage> {
   Widget build(BuildContext context) {
     return Builder(builder: (context) {
       return program != null
-          ? CustomPaint(
-              painter: _ShaderPainter(
-                program!.fragmentShader(),
-                images[current],
-                images[next],
-                updateTime,
+          ? Center(
+              child: RepaintBoundary(
+                child: SizedBox(
+                  height: widget.sliderHeight,
+                  width: double.infinity,
+                  child: CustomPaint(
+                    painter: _ShaderPainter(
+                      program!.fragmentShader(),
+                      images[current],
+                      images[next],
+                      updateTime,
+                      widget.sliderHeight,
+                    ),
+                  ),
+                ),
               ),
             )
           : const Center(
@@ -79,23 +90,25 @@ class _ShaderBuilderPageState extends State<ShaderBuilderPage> {
 }
 
 class _ShaderPainter extends CustomPainter {
-  _ShaderPainter(this.shader, this.image1, this.image2, this.updateTime);
+  _ShaderPainter(this.shader, this.image1, this.image2, this.updateTime,
+      this.sliderHeight);
 
   final ui.FragmentShader shader;
   final ui.Image image1;
   final ui.Image image2;
   final double updateTime;
+  final double sliderHeight;
 
   @override
   void paint(Canvas canvas, Size size) {
     shader
       ..setFloat(0, size.width)
-      ..setFloat(1, size.height)
+      ..setFloat(1, 300)
       ..setFloat(2, updateTime)
       ..setImageSampler(0, image1)
       ..setImageSampler(1, image2);
 
-    const Rect rect = Rect.largest;
+    final Rect rect = Rect.fromLTWH(0, 0, size.width, sliderHeight);
 
     final Paint paint = Paint()..shader = shader;
     canvas.drawRect(rect, paint);

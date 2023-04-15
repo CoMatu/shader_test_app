@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:shader_slider/shader_slider.dart';
 import 'package:shader_test_app/examples/example2_page.dart';
+import 'package:shader_test_app/examples/slider_example.dart';
 import 'package:shader_test_app/examples/transition_example_page.dart';
 import 'package:shader_test_app/examples/square_example_page.dart';
 
 import 'examples/example3_page.dart';
 
 void main() {
+  debugRepaintRainbowEnabled = true;
   runApp(const MyApp());
 }
 
@@ -42,6 +46,10 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
               _ButtonWidget(
                 title: 'Смена цвета',
                 child: Example3Page(),
+              ),
+              _ButtonWidget(
+                title: 'Слайдер',
+                child: SliderExample(),
               ),
             ],
           );

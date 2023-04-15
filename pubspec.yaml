@@ -13,6 +13,8 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_shaders: ^0.1.1
+  shader_slider:
+    path: packages/shader_slider
 
 dev_dependencies:
   flutter_lints: ^2.0.0
