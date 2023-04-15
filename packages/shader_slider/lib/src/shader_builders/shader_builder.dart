@@ -82,8 +82,8 @@ class _ShaderBuilderPageState extends State<ShaderBuilderPage> {
       images.add(await context.loadUiImage(e));
     }
 
-    program =
-        await ui.FragmentProgram.fromAsset("shaders/square_transition.frag");
+    program = await ui.FragmentProgram.fromAsset(
+        "packages/shader_slider/shaders/transition_1.frag");
 
     setState(() {});
   }

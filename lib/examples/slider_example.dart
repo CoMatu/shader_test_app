@@ -6,13 +6,15 @@ class SliderExample extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const ShaderSlider(
-      imagesPaths: [
-        'assets/bird.jpg',
-        'assets/tower.jpg',
-        'assets/sky_1.jpg',
-        'assets/dash.png',
-      ],
+    return const Scaffold(
+      body: ShaderSlider(
+        imagesPaths: [
+          'assets/bird.jpg',
+          'assets/tower.jpg',
+          'assets/sky_1.jpg',
+          'assets/dash.png',
+        ],
+      ),
     );
   }
 }

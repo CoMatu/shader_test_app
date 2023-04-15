@@ -8,11 +8,8 @@ class ShaderSlider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 300,
-      child: ShaderBuilderPage(
-        imagesPaths: imagesPaths,
-      ),
+    return ShaderBuilderPage(
+      imagesPaths: imagesPaths,
     );
   }
 }
