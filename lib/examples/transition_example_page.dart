@@ -34,7 +34,7 @@ class _TransitionExamplePageState extends State<TransitionExamplePage> {
   }
 
   void _initTimer() {
-    timer = Timer.periodic(const Duration(milliseconds: 10), (timer) {
+    timer = Timer.periodic(const Duration(milliseconds: 20), (timer) {
       setState(() {
         updateTime += 1 / 60;
       });
@@ -46,7 +46,7 @@ class _TransitionExamplePageState extends State<TransitionExamplePage> {
     return Builder(builder: (context) {
       return program != null && image1 != null
           ? CustomPaint(
-              size: MediaQuery.of(context).size,
+              // size: MediaQuery.of(context).size,
               painter: _ShaderPainter(
                   program!.fragmentShader(), image1!, image2!, updateTime),
             )
@@ -82,7 +82,7 @@ class _ShaderPainter extends CustomPainter {
     shader
       ..setFloat(0, size.width)
       ..setFloat(1, size.height)
-      /* ..setFloat(2, updateTime) */
+      ..setFloat(2, updateTime)
       ..setImageSampler(0, image1)
       ..setImageSampler(1, image2);
 
