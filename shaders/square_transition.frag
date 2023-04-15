@@ -40,8 +40,9 @@ void main()
     vec2 fragCoord = FlutterFragCoord();
 
     vec2 xy = fragCoord.xy / iResolution.xy;//Соединяем это в одну строку
-    vec4 texColor = texture(image1,xy);//Получаем от iChannel0 пиксель в координате xy
-    fragColor = texColor;//Присваиваем экранному пикселю этот цвет
+    vec4 texColor1 = texture(image1,xy);//Получаем от iChannel0 пиксель в координате xy
+    vec4 texColor2 = texture(image2,xy);//Получаем от iChannel0 пиксель в координате xy
+    fragColor = 0.5 * (texColor1 + texColor2);//Присваиваем экранному пикселю этот цвет
 
 
 

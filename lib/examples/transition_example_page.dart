@@ -70,10 +70,10 @@ class _TransitionExamplePageState extends State<TransitionExamplePage> {
 }
 
 class _ShaderPainter extends CustomPainter {
-  _ShaderPainter(this.shader, this.image, this.image2, this.updateTime);
+  _ShaderPainter(this.shader, this.image1, this.image2, this.updateTime);
 
   final ui.FragmentShader shader;
-  final ui.Image image;
+  final ui.Image image1;
   final ui.Image image2;
   final double updateTime;
 
@@ -83,7 +83,8 @@ class _ShaderPainter extends CustomPainter {
       ..setFloat(0, size.width)
       ..setFloat(1, size.height)
       /* ..setFloat(2, updateTime) */
-      ..setImageSampler(0, image2) /* ..setImageSampler(1, image2) */;
+      ..setImageSampler(0, image1)
+      ..setImageSampler(1, image2);
 
     const Rect rect = Rect.largest;
 
