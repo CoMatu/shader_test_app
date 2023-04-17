@@ -6,7 +6,7 @@
 #include <flutter/runtime_effect.glsl>
 
 // 1 .. 3
-#define TRANSITION_TYPE 2
+#define TRANSITION_TYPE 1
 
 uniform vec2 uSize;
 uniform float iTime;                 // shader playback time (in seconds) 3
